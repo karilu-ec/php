@@ -1,6 +1,6 @@
 <?php
 $handle = @fopen("MRHO1.txt", "r");
-$file = "MRH01-alt.json";
+$file = "MRH01.json";
 if ($handle) {
     $i=0;
     $keys = [];
@@ -21,12 +21,10 @@ if ($handle) {
             continue;
         }
         $row = preg_split("/\s+/", $data);
-        $dateString = $row[0] . "-" . $row[1] . "-" . $row[2] . " " . $row[3]  . ":" . $row[4];//YYY- MM -DD HH:MM in UTC.
-        //echo $dateString;
-        //exit;
-        $dateObj = new DateTime($dateString, new DateTimeZone('UTC'));
-        $datetime = $dateObj->format('Y/m/d h:i:s P');
-        array_splice($row, 0 , 5, $datetime);
+        $dateString = $row[0] . "-" . $row[1] . "-" . $row[2] . " " . $row[3]  . ":" . $row[4]." UTC";//YYY MM DD HH:MM        
+        $dateObj = new DateTime($dateString);
+        $ts = $dateObj->format("U");
+        array_splice($row, 0 , 5, $ts);
        // print_r( $row );
        // exit;
         array_push($point, $row);
